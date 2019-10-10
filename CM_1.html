@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="jquery-3.4.1.js"></script>
+
+    <link rel="stylesheet" href="codemirror-5.49.0 3/lib/codemirror.css"/>
+    <script src="codemirror-5.49.0 3/lib/codemirror.js"></script>
+    <script src="codemirror-5.49.0 3/mode/groovy/groovy.js"></script>
+    <script src="codemirror-5.49.0 3/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="codemirror-5.49.0 3/theme/dracula.css"/>
+
+    <link rel="stylesheet" href="codemirror-5.49.0 3/addon/fold/foldgutter.css"/>
+    <script src="codemirror-5.49.0 3/addon/fold/foldcode.js"></script>
+    <script src="codemirror-5.49.0 3/addon/fold/foldgutter.js"></script>
+    <script src="codemirror-5.49.0 3/addon/fold/brace-fold.js"></script>
+    <script src="codemirror-5.49.0 3/addon/fold/comment-fold.js"></script>
+
+    <style type="text/css">
+        #Sketchpad{
+            border: 1px solid #ccc;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body>
+    <textarea class="form-control" id="code" name="code"></textarea>
+    <script type="text/javascript">
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "text/groovy",
+            mode: 'javascript',
+            lineNumbers: true,
+            theme: "dracula",
+            lineWrapping: true,
+            foldGutter: true,
+            extraKeys: {"Ctrl": "autocomplete"},
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            matchBrackets: true,
+            readOnly: true,
+        });
+        editor.setSize('800px', '950px');
+        
+        editor.setValue(
+            "Console.log('Hello world!');"
+        );
+    </script>
+
+    <canvas id="Sketchpad" width="1000" height="800" ></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById("Sketchpad");
+    
+        $("#Sketchpad").mousedown(function (e) {
+        var line = canvas.getContext("2d");
+        line.lineWidth = 3;
+        line.strokeStyle = "black";
+    
+        var startXPos = e.pageX - this.offsetLeft;
+        var startYPos = e.pageY - this.offsetTop;
+        line.moveTo(startXPos, startYPos);
+    
+        var endXPos = this.offsetLeft;
+        var endYPos = this.offsetTop;
+        line.lineTo(endXPos, endYPos);
+        
+        line.stroke();
+        });
+    
+        $("#Sketchpad").mousedown(function (e) {
+        var circle = canvas.getContext("2d");
+        circle.strokeStyle = "black";
+    
+        var startXPos = e.pageX - this.offsetLeft;
+        var startYPos = e.pageY - this.offsetTop;
+    
+        circle.beginPath();
+        circle.arc(startXPos, startYPos, 5, 0, Math.PI*2, true);
+        circle.closePath();
+        circle.fill();
+        circle.stroke();
+        });
+    </script>
+</body>
+</html>

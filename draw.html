@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<head> 
+<meta charset=utf-8> 
+<title>HTML5</title>
+<script src="jquery-3.4.1.js"></script>
+    <style type="text/css">
+        #Sketchpad{
+            border: 1px solid #ccc;
+            opacity: 0.05;
+        }
+
+    </style>
+</head>
+<body>
+<canvas id="Sketchpad" width="1000" height="800" ></canvas>
+
+<script type="text/javascript">
+  var canvas = document.getElementById("Sketchpad");
+
+  $("#Sketchpad").mousedown(function (e) {
+    var line = canvas.getContext("2d");
+    line.lineWidth = 3;
+    line.strokeStyle = "black";
+
+    var startXPos = e.pageX - this.offsetLeft;
+    var startYPos = e.pageY - this.offsetTop;
+    line.moveTo(startXPos, startYPos);
+
+    var endXPos = this.offsetLeft;
+    var endYPos = this.offsetTop;
+
+    var controlXPos = (startXPos + endXPos)/2 + 200;
+    var controlYPos = (startYPos + endYPos)/2 + 200;
+    line.quadraticCurveTo(controlXPos, controlYPos, endXPos, endYPos);
+    
+    line.stroke();
+  });
+
+  $("#Sketchpad").mousedown(function (e) {
+    var circle = canvas.getContext("2d");
+    circle.strokeStyle = "black";
+
+    var startXPos = e.pageX - this.offsetLeft;
+    var startYPos = e.pageY - this.offsetTop;
+
+    circle.beginPath();
+    circle.arc(startXPos, startYPos, 5, 0, Math.PI*2, true);
+    circle.closePath();
+    circle.fill();
+    circle.stroke();
+  });
+</script>
+
+</body> 
+</html> 
