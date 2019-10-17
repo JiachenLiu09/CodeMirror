@@ -26,85 +26,88 @@
         }
     </style>
     <style> 
-        .div-a{ position:absolute; left:30px; top:30px; width:800px; height:800px; z-index: 100;} 
-        .div-b{ position:absolute; left:30px; top:30px; width:800px; height:800px; z-index: 90;} 
+        .div-a{ position:absolute; width:800px; height:800px; z-index: 100; opacity:0.5} 
+        .div-b{ position:absolute; left: 200px; width:600px; height:800px; z-index: 90;} 
+        .div-r{ position: relative; background-color: black; width: 800px; height: 800px; }
     </style>
 </head>
 <body>
-    <div class="div-b">
-        <textarea class="form-control" id="code" name="code"></textarea>
-    </div>
-    <div class="div-a">
-        <canvas id="Sketchpad" width="800px" height="800"></canvas>
-    </div>
-    <script type="text/javascript">
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: "text/groovy",
-            mode: 'javascript',
-            lineNumbers: true,
-            theme: "dracula",
-            lineWrapping: true,
-            foldGutter: true,
-            extraKeys: {"Ctrl": "autocomplete"},
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            matchBrackets: true,
-            readOnly: true,
-        });
-        editor.setSize('800px', '800px');
-        
-        editor.setValue(
-            "Console.log('Hello world!');"
-        );
-    </script>
-
-    <canvas id="Sketchpad" width="1000" height="800" ></canvas>
-    <script type="text/javascript">
-        var canvas = document.getElementById("Sketchpad");
-        var i = 0;
-        var startXPos;
-        var startYPos;
-        var endXPos;
-        var endYPos;
-        $("#Sketchpad").mousedown(function (e) {
-            i++;
-
-            var line = canvas.getContext("2d");
-            line.lineWidth = 3;
-            line.strokeStyle = "white";
+    <div class="div-r">
+        <div class="div-b">
+            <textarea class="form-control" id="code" name="code"></textarea>
+        </div>
+        <div class="div-a" left=30px top=30px>
+            <canvas id="Sketchpad" width="800px" height="800px"></canvas>
+        </div>
+        <script type="text/javascript">
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                mode: "text/groovy",
+                mode: 'javascript',
+                lineNumbers: true,
+                theme: "dracula",
+                lineWrapping: true,
+                foldGutter: true,
+                extraKeys: {"Ctrl": "autocomplete"},
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                matchBrackets: true,
+                readOnly: true,
+            });
+            editor.setSize('600px', '800px');
             
-            if(i%2){
-                startXPos = e.pageX;
-                startYPos = e.pageY;
-                console.log(i);
-            } else {
-                endXPos = e.pageX;
-                endYPos = e.pageY;
-                line.moveTo(startXPos, startYPos);
-                var controlXPos;
-                if(startXPos > endXPos) {
-                    controlXPos = endXPos - 200;
+            editor.setValue(
+                "Console.log('Hello world!');"
+            );
+        </script>
+        <script type="text/javascript">
+            var canvas = document.getElementById("Sketchpad");
+            var i = 0;
+            var startXPos;
+            var startYPos;
+            var endXPos;
+            var endYPos;
+            $("#Sketchpad").mousedown(function (e) {
+                i++;
+
+                var line = canvas.getContext("2d");
+                line.lineWidth = 3;
+                line.strokeStyle = "white";
+                
+                if(i == 1){
+                    startXPos = e.pageX - canvas.offsetLeft;
+                    startYPos = e.pageY - canvas.offsetTop;
+                    console.log(i);
                 } else {
-                    controlXPos = startXPos - 200;
+                    endXPos = e.pageX - canvas.offsetLeft;
+                    endYPos = e.pageY - canvas.offsetTop;
+                    line.moveTo(startXPos, startYPos);
+                    var controlXPos;
+                    if(startXPos > endXPos) {
+                        controlXPos = endXPos - 200;
+                    } else {
+                        controlXPos = startXPos - 200;
+                    }
+                    var controlYPos = (startYPos + endYPos)/2;
+                    line.quadraticCurveTo(controlXPos, controlYPos, endXPos, endYPos);
+                    line.stroke();
+                    startXPos = endXPos;
+                    startYPos = endYPos;
                 }
-                var controlYPos = (startYPos + endYPos)/2;
-                line.quadraticCurveTo(controlXPos, controlYPos, endXPos, endYPos);
-                line.stroke();
-            }
-        });
-    
-        $("#Sketchpad").mousedown(function (e) {
-        var circle = canvas.getContext("2d");
-        circle.strokeStyle = "white";
-    
-        var startXPos = e.pageX;
-        var startYPos = e.pageY;
-    
-        circle.beginPath();
-        circle.arc(startXPos, startYPos, 5, 0, Math.PI*2, true);
-        circle.closePath();
-        circle.fill();
-        circle.stroke();
-        });
-    </script>
+            });
+        
+            $("#Sketchpad").mousedown(function (e) {
+            var circle = canvas.getContext("2d");
+            circle.strokeStyle = "white";
+        
+            var startXPos = e.pageX;
+            var startYPos = e.pageY;
+        
+            circle.beginPath();
+            circle.arc(startXPos, startYPos, 5, 0, Math.PI*2, true);
+            circle.closePath();
+            circle.fill();
+            circle.stroke();
+            });
+        </script>
+    </div>
 </body>
 </html>
