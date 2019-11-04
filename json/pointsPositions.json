@@ -1,0 +1,23 @@
+{
+    "DrawLines": [
+        {
+            "ID": 0,
+            "FilePath": "xxx.c",
+            "Lines": [
+                {"row": 12, "column": 4},
+                {"row": 34, "column": 7},
+                {"row": 51, "column": 0}
+            ]
+        },
+        {
+            "ID": 1,
+            "FilePath": "xxx.h",
+            "Lines": [
+                {"row": 45, "column": 9},
+                {"row": 96, "column": 2},
+                {"row": 172, "column": 18},
+                {"row": 172, "column": 27}
+            ]
+        }
+    ]
+}
